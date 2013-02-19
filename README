@@ -1,0 +1,39 @@
+Zachary Yamada
+zyamada@cs.uoregon.edu
+
+
+Usage notes:
+    Encrypter:
+        uoenc <input file> [-d <output ip:port>] [-l]
+        Notes: -d or -l must be selected, no defaulting one over the other
+        
+    Decrypter:
+        uodec [-n] [-l <input file>]
+        Notes: -n or -l must be selected
+
+Work accomplished:
+    All assigned tasks with the exception of attaching and verifying an HMAC have been accomplished
+
+    
+Description of code:
+    The code of uoenc and uodec differ slightly. uodec is broken into three functions, crypt_init and decrypt. This is due to the fact that I didn't want to involve the use of threads in this program but at the same time did not wish to reuse code. The functions are called in differing places depending if the program is being ran in local or networked mode. When network mode is in use, the configuration allows for three modes, 0, 1 and 2. Mode 0 is the inital handshaking, 1 is the receipt of filename and acknowldgement that the password has been entered and glibc is setup, and finally stage 2 is the process of recieving, decrypting, and writing data. The network interactions are detailed further below.
+    
+    uoenc is linear with only branches in logic depending on if the code is being operated in local or networked mode.
+    
+    Network interactions between the client and server are as follows:
+    
+    SERVER (uodec)                      CLIENT (uoenc)
+
+    ACK of connection --------------------->
+    
+    <------------------------ FILENAME (Sent of receipt of ACK)
+    
+    PWD (signals ready) ------------------->
+    
+    <-------------------DATA BEING SENT FROM ENC TO DEC
+    
+    <-------------------------------- DON (signals end of xfer)
+
+
+General Design Notes:
+    The IP address that uoenc connects to can be defined via command-line. Since uodec is made to be run as a deamon, the port is defined inside the program on line 14.
