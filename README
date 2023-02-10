@@ -1,7 +1,3 @@
-Zachary Yamada
-zyamada@cs.uoregon.edu
-
-
 Usage notes:
     Encrypter:
         uoenc <input file> [-d <output ip:port>] [-l]
